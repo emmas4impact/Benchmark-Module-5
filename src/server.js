@@ -1,5 +1,9 @@
 const express = require("express")
 const listEndpoints = require("express-list-endpoints")
+const usersRouter = require("./service/products")
+//const projectRouter = require("./service/project")
+const filesRoute = require("./files/index")
+
 const reviewRouter = require("./services/Reviews")
 // const projectRouter = require("./service/project")
 const {join}= require("path")
@@ -12,16 +16,16 @@ server.use(express.static(join(__dirname, `../public`)))
 
 const port = process.env.PORT || 3005
 
-const loggerMiddleware = (req, res, next) => {
-  console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
-  next()
-}
+
 server.use(cors())
 server.use(express.json()) // Built in middleware
-server.use(loggerMiddleware)
 
 // ROUTES
-server.use("/reviews", loggerMiddleware, reviewRouter)
+server.use("/products",  usersRouter)
+//server.use("/project",loggerMiddleware, projectRouter)
+
+server.use("/files",filesRoute)
+server.use("/reviews",  reviewRouter)
 // server.use("/project",loggerMiddleware, projectRouter)
 // server.use("/problems", problematicRoutes)
 
