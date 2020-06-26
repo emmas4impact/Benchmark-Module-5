@@ -14,7 +14,7 @@ const cors = require("cors")
 const server = express()
 server.use(express.static(join(__dirname, `../public`)))
 
-const port = process.env.PORT || 3005
+const port = 3002
 
 
 server.use(cors())

@@ -44,14 +44,14 @@ router.post("/:_id/upload", upload.single("avatar"), async (req, res, next) => {
   }
   res.send("ok")
 })
-router.get("/:_id", (req, res, next) => {
+router.get("/:id", (req, res, next) => {
   try {
     const usersDB = readFile("products.json")
-    const user = usersDB.filter((user) => user.ID === req.params.id)
+    const user = usersDB.filter((user) => user._id === req.params.id)
     res.send(user)
   } catch (error) {
     error.httpStatusCode = 404
-    next(error) // next is sending the error to the error handler
+    next(error)
   }
 })
 
@@ -117,12 +117,11 @@ router.delete("/:_id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const usersDB = readFile("products.json")
-  const newDb = usersDB.filter((x) => x.ID !== req.params.id) //removing previous item
+  const newDb = usersDB.filter(x => x._id !== req.params.id) 
   const users = req.body
-  users.ID = req.params.id
-  newDb.push(users) //adding new item
+  users._id = req.params.id
+  newDb.push(users) 
   fs.writeFileSync(path.join(__dirname, "products.json"), JSON.stringify(newDb))
-
   res.send(newDb)
 })
 
