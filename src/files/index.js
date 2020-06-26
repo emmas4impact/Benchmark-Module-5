@@ -7,13 +7,11 @@ const { join } = require("path");
 const projectsFolder = join(__dirname,'../../public/products')
 
 
-router.post('/',upload.array('product'),async (req,res)=>{
-
-
+router.post('/:id',upload.array('product'),async (req,res)=>{
 
     try {
         const promisesArray = req.files.map(e =>{
-            writeFile(join(projectsFolder, e.originalname),
+            writeFile(join(projectsFolder, `${req.params.id + e.originalname}`),
             e.buffer)
         })
 
