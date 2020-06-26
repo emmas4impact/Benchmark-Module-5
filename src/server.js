@@ -4,6 +4,8 @@ const usersRouter = require("./service/products")
 //const projectRouter = require("./service/project")
 const filesRoute = require("./files/index")
 
+const reviewRouter = require("./services/Reviews")
+// const projectRouter = require("./service/project")
 const {join}= require("path")
 
 const cors = require("cors")
@@ -23,6 +25,9 @@ server.use("/products",  usersRouter)
 //server.use("/project",loggerMiddleware, projectRouter)
 
 server.use("/files",filesRoute)
+server.use("/reviews",  reviewRouter)
+// server.use("/project",loggerMiddleware, projectRouter)
+// server.use("/problems", problematicRoutes)
 
 // ERROR HANDLERS
 
