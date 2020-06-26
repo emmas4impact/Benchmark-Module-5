@@ -1,7 +1,7 @@
 const express = require("express")
 const listEndpoints = require("express-list-endpoints")
-const usersRouter = require("./service/users")
-const projectRouter = require("./service/project")
+const usersRouter = require("./service/products")
+//const projectRouter = require("./service/project")
 const {join}= require("path")
 
 const cors = require("cors")
@@ -21,9 +21,9 @@ server.use(express.json()) // Built in middleware
 server.use(loggerMiddleware)
 
 // ROUTES
-server.use("/users", loggerMiddleware, usersRouter)
-server.use("/project",loggerMiddleware, projectRouter)
-server.use("/problems", problematicRoutes)
+server.use("/products", loggerMiddleware, usersRouter)
+//server.use("/project",loggerMiddleware, projectRouter)
+
 
 // ERROR HANDLERS
 
