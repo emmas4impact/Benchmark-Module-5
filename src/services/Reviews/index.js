@@ -21,7 +21,7 @@ router.get("/:id" , (req,res,next) => {
     res.send(review)
 })
 
-router.post("/:id" , [body("comment").exists().isLength({min:4}),body("rate").exists().isNumeric()] ,(req,res,next) => {
+router.post("/:id" , [body("comment").exists().isLength({min:4}),body("rate").exists()] ,(req,res,next) => {
     try {
         const err = validationResult(req)
         if (!err.isEmpty()){

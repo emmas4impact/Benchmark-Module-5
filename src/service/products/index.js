@@ -44,6 +44,16 @@ router.post("/:id/upload", upload.single("avatar"), async (req, res, next) => {
   }
   res.send("ok")
 })
+router.get("/:id", (req, res, next) => {
+  try {
+    const usersDB = readFile("products.json")
+    const user = usersDB.filter((user) => user._id === req.params.id)
+    res.send(user)
+  } catch (error) {
+    error.httpStatusCode = 404
+    next(error)
+  }
+})
 
 router.get("/", (req, res) => {
   const usersDB = readFile("products.json")
@@ -119,12 +129,11 @@ router.delete("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const usersDB = readFile("products.json")
-  const newDb = usersDB.filter((x) => x._id !== req.params._id) //removing previous item
+  const newDb = usersDB.filter(x => x._id !== req.params.id) 
   const users = req.body
-  users._id = req.params._id
-  newDb.push(users) //adding new item
+  users._id = req.params.id
+  newDb.push(users) 
   fs.writeFileSync(path.join(__dirname, "products.json"), JSON.stringify(newDb))
-
   res.send(newDb)
 })
 
