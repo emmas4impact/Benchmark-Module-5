@@ -1,6 +1,6 @@
 const express = require("express")
 const listEndpoints = require("express-list-endpoints")
-const usersRouter = require("./service/products")
+const productsRouter = require("./service/products")
 //const projectRouter = require("./service/project")
 const filesRoute = require("./files/index")
 
@@ -14,14 +14,14 @@ const cors = require("cors")
 const server = express()
 server.use(express.static(join(__dirname, `../public`)))
 
-const port = process.env.PORT || 3005
+const port = process.env.PORT || 3003
 
 
 server.use(cors())
 server.use(express.json()) // Built in middleware
 
 // ROUTES
-server.use("/products",  usersRouter)
+server.use("/products",  productsRouter)
 //server.use("/project",loggerMiddleware, projectRouter)
 
 server.use("/files",filesRoute)

@@ -20,7 +20,7 @@ const readFile = (fileName) => {
 
 
 
-router.post("/:_id/upload", upload.single("avatar"), async (req, res, next) => {
+router.post("/:id/upload", upload.single("avatar"), async (req, res, next) => {
   
   console.log(req.file.buffer)
   try {
@@ -44,16 +44,6 @@ router.post("/:_id/upload", upload.single("avatar"), async (req, res, next) => {
   }
   res.send("ok")
 })
-router.get("/:_id", (req, res, next) => {
-  try {
-    const usersDB = readFile("products.json")
-    const user = usersDB.filter((user) => user.ID === req.params.id)
-    res.send(user)
-  } catch (error) {
-    error.httpStatusCode = 404
-    next(error) // next is sending the error to the error handler
-  }
-})
 
 router.get("/", (req, res) => {
   const usersDB = readFile("products.json")
@@ -69,6 +59,18 @@ router.get("/", (req, res) => {
   }
 })
 
+router.get("/:id", (req, res, next) => {
+    try {
+      const usersDB = readFile("products.json")
+      const users = usersDB.filter((user) => user._id ===req.params.id)
+      //console.log(req.params._id)
+      res.send(users )
+    } catch (error) {
+      error.httpStatusCode = 404
+      next(error) // next is sending the error to the error handler
+    }
+  })
+  
 router.post(
   "/",
  [body('name').exists().isLength({min:3}),
@@ -107,9 +109,9 @@ router.post(
   }
 )
 
-router.delete("/:_id", (req, res) => {
+router.delete("/:id", (req, res) => {
   const usersDB = readFile("products.json")
-  const newDb = usersDB.filter((x) => x.ID !== req.params.id)
+  const newDb = usersDB.filter((x) => x._id !== req.params._id)
   fs.writeFileSync(path.join(__dirname, "products.json"), JSON.stringify(newDb))
 
   res.json(newDb)
@@ -117,14 +119,16 @@ router.delete("/:_id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const usersDB = readFile("products.json")
-  const newDb = usersDB.filter((x) => x.ID !== req.params.id) //removing previous item
+  const newDb = usersDB.filter((x) => x._id !== req.params._id) //removing previous item
   const users = req.body
-  users.ID = req.params.id
+  users._id = req.params._id
   newDb.push(users) //adding new item
   fs.writeFileSync(path.join(__dirname, "products.json"), JSON.stringify(newDb))
 
   res.send(newDb)
 })
 
+
+//Review 
 
 module.exports = router
